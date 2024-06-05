@@ -79,9 +79,7 @@ export async function POST(request: Request) {
           success: false,
           message: emailResponse.message,
         },
-        {
-          status: 500,
-        }
+        { status: 500 }
       );
     }
 
@@ -90,9 +88,7 @@ export async function POST(request: Request) {
         success: true,
         message: 'User registered successfully. Please verify your email.',
       },
-      {
-        status: 201,
-      }
+      { status: 201 }
     );
   } catch (error) {
     console.error('Error Registering User', error);
@@ -101,9 +97,7 @@ export async function POST(request: Request) {
         success: false,
         message: 'Error Registering User',
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
