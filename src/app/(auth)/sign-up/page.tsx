@@ -72,6 +72,7 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
+
     try {
       const response = await axios.post<ApiResponse>('/api/sign-up', data);
       toast.success(response.data.message);
@@ -93,7 +94,7 @@ export default function SignUpPage() {
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight lg:text-5xl">
             Join Mystery Message
           </h1>
-          <p className="mb-4">Sign up to start your anonymous journey.</p>
+          <p className="mb-4">Sign up to start your anonymous journey</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

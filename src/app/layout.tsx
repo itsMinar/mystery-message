@@ -21,7 +21,16 @@ export default function RootLayout({
       <AuthProvider>
         <body className={inter.className}>
           {children}
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              classNames: {
+                error: 'bg-red-400',
+                success: 'text-gray-800 bg-green-200',
+                warning: 'text-yellow-400',
+                info: 'bg-blue-500',
+              },
+            }}
+          />
         </body>
       </AuthProvider>
     </html>
