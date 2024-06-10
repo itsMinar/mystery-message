@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            throw new Error('No user found with this Email or Username');
+            throw new Error('No User found with this Email or Username');
           }
 
           if (!user.isVerified) {
