@@ -14,13 +14,15 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Message } from '@/model/User';
+import { ApiResponse } from '@/types/ApiResponse';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
 
 type MessageCardProps = {
   message: Message;
-  onMessageDelete?: (messageId: string) => void;
+  onMessageDelete: (messageId: string) => void;
 };
 
 export default function MessageCard({
@@ -28,7 +30,11 @@ export default function MessageCard({
   onMessageDelete,
 }: MessageCardProps) {
   const handleDeleteConfirm = async () => {
-    toast.success('kaj hoye geche');
+    const response = await axios.delete<ApiResponse>(
+      `/api/delete-message/${message._id}`
+    );
+    toast.success(response.data.message);
+    onMessageDelete(message._id);
   };
 
   return (
