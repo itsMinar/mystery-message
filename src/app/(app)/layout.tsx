@@ -1,7 +1,14 @@
+import Navbar from '@/components/Navbar';
+
 export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      {children}
+    </div>
+  );
 }
