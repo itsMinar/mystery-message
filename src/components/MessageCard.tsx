@@ -34,7 +34,7 @@ export default function MessageCard({
       `/api/delete-message/${message._id}`
     );
     toast.success(response.data.message);
-    onMessageDelete(message._id);
+    onMessageDelete(message._id as string);
   };
 
   return (
