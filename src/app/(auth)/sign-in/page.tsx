@@ -12,14 +12,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { signInSchema } from '@/schemas/signInSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 export default function SignInPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   // zod implementation
@@ -32,6 +35,8 @@ export default function SignInPage() {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    setIsLoading(true);
+
     const response = await signIn('credentials', {
       identifier: data.identifier,
       password: data.password,
@@ -43,8 +48,11 @@ export default function SignInPage() {
     }
 
     if (response?.url) {
+      toast.success('Successfully Logged In');
       router.replace('/dashboard');
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -52,7 +60,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
         <div className="text-center">
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight lg:text-5xl">
-            Join Mystery Message
+            Welcome to Mystery Message
           </h1>
           <p className="mb-4">Sign in to start your anonymous journey</p>
         </div>
@@ -85,7 +93,15 @@ export default function SignInPage() {
               )}
             />
 
-            <Button type="submit">Sign In</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
           </form>
         </Form>
 

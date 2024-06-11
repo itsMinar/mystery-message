@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
 export default function AppLayout({
@@ -9,6 +10,7 @@ export default function AppLayout({
     <div className="flex min-h-screen flex-col">
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 }

@@ -18,6 +18,8 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 export default function DashboardPage() {
+  const { data: session } = useSession();
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -25,8 +27,6 @@ export default function DashboardPage() {
   const handleDeleteMessage = async (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
   };
-
-  const { data: session } = useSession();
 
   // zod implementation
   const form = useForm<z.infer<typeof acceptMessageSchema>>({
@@ -41,7 +41,7 @@ export default function DashboardPage() {
     setIsSwitchLoading(true);
 
     try {
-      const response = await axios.get<ApiResponse>('/api/accept-messages');
+      const response = await axios.get('/api/accept-messages');
       setValue('acceptMessages', response.data.isAcceptingMessages!);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -58,7 +58,7 @@ export default function DashboardPage() {
       setIsSwitchLoading(false);
 
       try {
-        const response = await axios.get<ApiResponse>('/api/get-messages');
+        const response = await axios.get('/api/get-messages');
         setMessages(response.data.messages || []);
 
         if (refresh) {
@@ -81,7 +81,7 @@ export default function DashboardPage() {
 
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, fetchMessages, fetchAcceptMessage]);
+  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
 
   // handle switch change
   const handleSwitchChange = async () => {
@@ -99,6 +99,10 @@ export default function DashboardPage() {
     }
   };
 
+  if (!session || !session.user) {
+    return <div>Please Login</div>;
+  }
+
   const { username } = session?.user as User;
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
@@ -107,10 +111,6 @@ export default function DashboardPage() {
     navigator.clipboard.writeText(profileUrl);
     toast.success('Profile URL has been copied to clipboard.');
   };
-
-  if (!session || !session.user) {
-    return <div>Please Login</div>;
-  }
 
   return (
     <div className="mx-4 my-8 w-full max-w-6xl rounded bg-white p-6 md:mx-8 lg:mx-auto">
@@ -158,7 +158,7 @@ export default function DashboardPage() {
       </Button>
       <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
               key={message._id as Key}
               message={message}

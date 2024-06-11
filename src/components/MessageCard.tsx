@@ -50,7 +50,9 @@ export default function MessageCard({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Are you sure to Delete this Message?
+                </AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete
                   this message.
@@ -59,7 +61,7 @@ export default function MessageCard({
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDeleteConfirm}>
-                  Continue
+                  Delete
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
