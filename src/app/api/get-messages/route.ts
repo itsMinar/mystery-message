@@ -40,6 +40,16 @@ export async function GET(request: Request) {
       );
     }
 
+    if (user.length === 0) {
+      return Response.json(
+        {
+          success: false,
+          message: 'No Message Found',
+        },
+        { status: 400 }
+      );
+    }
+
     return Response.json(
       {
         success: true,

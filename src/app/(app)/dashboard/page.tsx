@@ -67,7 +67,11 @@ export default function DashboardPage() {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         let errorMessage = axiosError.response?.data.message;
-        toast.error(errorMessage);
+        if (errorMessage === 'No Message Found') {
+          toast.info(errorMessage);
+        } else {
+          toast.error(errorMessage);
+        }
       } finally {
         setIsLoading(false);
         setIsSwitchLoading(false);
