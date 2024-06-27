@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
                 email: credentials.identifier,
               },
               {
-                username: credentials.identifier,
+                username: credentials.identifier.toLocaleLowerCase(),
               },
             ],
           });
